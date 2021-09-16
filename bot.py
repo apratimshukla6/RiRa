@@ -6,6 +6,7 @@ import datetime
 import asyncio
 import requests
 from urllib.parse import urlparse
+from bot_token import *
 import os
 
 DISCORD_TOKEN = get_discord()
