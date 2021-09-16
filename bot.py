@@ -187,7 +187,6 @@ async def start(ctx):
             embed = discord.Embed(title="RiRa", description="Now Playing", color=discord.Color.red())
             embed.add_field(name="Title", value=f"{track}", inline = False)
             embed.add_field(name="Duration", value=f"{convert(duration)}")
-            embed.add_field(name="Requested by", value=f"{ctx.author.name}")
             embed.set_thumbnail(url=thumbnail)
             embed.set_footer(text=f"RiRa {VERSION}", icon_url=FOOTER)
 
@@ -251,73 +250,74 @@ async def skip(ctx, interaction=None):
 async def play(ctx, *, url: str):
     global queue
 
-    if url is not None:
-        voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+    try:
+        if url is not None:
+            voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
 
-        if not ctx.message.author.voice:
-            embed = create_embed(f"{ctx.message.author.name} is not connected to a voice channel")
-            await ctx.send(embed=embed)
-            return
-        elif voice == None:
-            channel = ctx.message.author.voice.channel
-            await channel.connect()
+            if not ctx.message.author.voice:
+                embed = create_embed(f"{ctx.message.author.name} is not connected to a voice channel")
+                await ctx.send(embed=embed)
+                return
+            elif voice == None:
+                channel = ctx.message.author.voice.channel
+                await channel.connect()
 
-        voice_client = ctx.guild.voice_client
-        
-        spotify = urlparse(url)
-        
-        if spotify.netloc == "open.spotify.com" and "playlist" in spotify.path:
-            tracks, images = playlist(url)
-            count = 0
-            for i in tracks:
-                count += 1
-                queue.append(i)
-                
-            embed = discord.Embed(title="RiRa", description="Playlist Added", color=discord.Color.red())
-            embed.add_field(name="Number of tracks", value=f"{count}", inline = False)
-            embed.add_field(name="Requested by", value=f"{ctx.author.name}")
-            embed.set_thumbnail(url=images)
-            embed.set_footer(text=f"RiRa {VERSION}", icon_url=FOOTER)
-            
-            await ctx.send(embed=embed)
-            await start(ctx)
-            
-        elif spotify.netloc == "open.spotify.com" and "track" in spotify.path:
-            record = album(url)
-            filename, track, thumbnail, duration = await YTDLSource.from_url(record, loop=bot.loop, stream=True)
-            queue.append(track)
-                
-            embed = discord.Embed(title="RiRa", description="Added to Queue", color=discord.Color.red())
-            embed.add_field(name="Title", value=f"{track}", inline = False)
-            embed.add_field(name="Duration", value=f"{convert(duration)}")
-            embed.add_field(name="Requested by", value=f"{ctx.author.name}")
-            embed.set_thumbnail(url=thumbnail)
-            embed.set_footer(text=f"RiRa {VERSION}", icon_url=FOOTER)
-            
-            await ctx.send(embed=embed)
-            await start(ctx)
-            
-        else:
-            if voice_client.is_playing():
-                filename, track, thumbnail, duration = await YTDLSource.from_url(url, loop=bot.loop, stream=True)
+            voice_client = ctx.guild.voice_client
+
+            spotify = urlparse(url)
+
+            if spotify.netloc == "open.spotify.com" and "playlist" in spotify.path:
+                tracks, images = playlist(url)
+                count = 0
+                for i in tracks:
+                    count += 1
+                    queue.append(i)
+
+                embed = discord.Embed(title="RiRa", description="Playlist Added", color=discord.Color.red())
+                embed.add_field(name="Number of tracks", value=f"{count}", inline = False)
+                embed.set_thumbnail(url=images)
+                embed.set_footer(text=f"RiRa {VERSION}", icon_url=FOOTER)
+
+                await ctx.send(embed=embed)
+                await start(ctx)
+
+            elif spotify.netloc == "open.spotify.com" and "track" in spotify.path:
+                record = album(url)
+                filename, track, thumbnail, duration = await YTDLSource.from_url(record, loop=bot.loop, stream=True)
                 queue.append(track)
-                
-                embed = discord.Embed(title="RiRa", description="Added to queue", color=discord.Color.red())
+
+                embed = discord.Embed(title="RiRa", description="Added to Queue", color=discord.Color.red())
                 embed.add_field(name="Title", value=f"{track}", inline = False)
                 embed.add_field(name="Duration", value=f"{convert(duration)}")
-                embed.add_field(name="Requested by", value=f"{ctx.author.name}")
                 embed.set_thumbnail(url=thumbnail)
                 embed.set_footer(text=f"RiRa {VERSION}", icon_url=FOOTER)
 
                 await ctx.send(embed=embed)
-            else:
-                filename, track, thumbnail, duration = await YTDLSource.from_url(url, loop=bot.loop, stream=True)
-                queue.append(track)
-            
                 await start(ctx)
-    else:
-        embed = create_embed("Provide a song to be played.")
-        await ctx.send(embed=embed)     
+
+            else:
+                if voice_client.is_playing():
+                    filename, track, thumbnail, duration = await YTDLSource.from_url(url, loop=bot.loop, stream=True)
+                    queue.append(track)
+
+                    embed = discord.Embed(title="RiRa", description="Added to queue", color=discord.Color.red())
+                    embed.add_field(name="Title", value=f"{track}", inline = False)
+                    embed.add_field(name="Duration", value=f"{convert(duration)}")
+                    embed.set_thumbnail(url=thumbnail)
+                    embed.set_footer(text=f"RiRa {VERSION}", icon_url=FOOTER)
+
+                    await ctx.send(embed=embed)
+                else:
+                    filename, track, thumbnail, duration = await YTDLSource.from_url(url, loop=bot.loop, stream=True)
+                    queue.append(track)
+
+                    await start(ctx)
+        else:
+            embed = create_embed("Provide a song to be played.")
+            await ctx.send(embed=embed)   
+    except Exception as e:
+        embed = create_embed("Could not join voice channel.")
+        await ctx.send(embed=embed)   
     
 @bot.command(name='remove', help='Removes music from the queue', aliases=['r', 'del'])
 async def remove(ctx, number=None):
@@ -379,7 +379,6 @@ async def np(ctx):
             embed = discord.Embed(title="RiRa", description="Now Playing", color=discord.Color.red())
             embed.add_field(name="Title", value=f"{current['track']}", inline = False)
             embed.add_field(name="Duration", value=f"{convert(current['duration'])}")
-            embed.add_field(name="Requested by", value=f"{current['request']}")
             embed.set_thumbnail(url=current["thumbnail"])
             embed.set_footer(text=f"RiRa {VERSION}", icon_url=FOOTER)
             await ctx.send(embed=embed)
