@@ -1,0 +1,5 @@
+venv/
+.env
+.vscode/
+ffmpeg.exe
+__pycache__
