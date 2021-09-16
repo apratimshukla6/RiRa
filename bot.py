@@ -8,6 +8,7 @@ import requests
 from urllib.parse import urlparse
 from bot_token import *
 import os
+import math
 
 DISCORD_TOKEN = get_discord()
 CLIENT_ID = get_client()
@@ -335,10 +336,7 @@ async def remove(ctx, number=None):
 @bot.command(name='queue', help='View the queue', aliases=['q', 'view'])
 async def queue_(ctx, page=1):
     if (len(queue)!=0):
-        pages = len(queue)//20
-        
-        if(len(queue)<20):
-            pages = 1
+        pages = math.ceil(len(queue)/20)
             
         if(page<=pages):
             message = ""
