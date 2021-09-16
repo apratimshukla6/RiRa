@@ -4,4 +4,3 @@ libopus-dev
 libssl-dev
 libffi-dev
 libsodium-dev
-ffmpeg
