@@ -175,7 +175,7 @@ async def start(ctx):
         while(len(queue)!=0 and not voice_client.is_playing()):
             async with ctx.typing():
                 filename, track, thumbnail, duration = await YTDLSource.from_url(queue[0], loop=bot.loop)
-                voice_channel.play(discord.FFmpegPCMAudio(executable="ffmpeg.exe", source=filename))
+                voice_channel.play(discord.FFmpegPCMAudio(source=filename))
                 
             current["track"] = track
             current["duration"] = duration
