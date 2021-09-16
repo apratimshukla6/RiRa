@@ -2,4 +2,5 @@ venv/
 .env
 .vscode/
 ffmpeg.exe
+bot_token.py
 __pycache__

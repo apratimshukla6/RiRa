@@ -8,9 +8,9 @@ import requests
 from urllib.parse import urlparse
 import os
 
-DISCORD_TOKEN = os.environ.get("discord")
-CLIENT_ID = os.environ.get("client")
-CLIENT_SECRET = os.environ.get("secret")
+DISCORD_TOKEN = get_discord()
+CLIENT_ID = get_client()
+CLIENT_SECRET = get_secret()
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 
 auth_response = requests.post(AUTH_URL, {
@@ -24,7 +24,7 @@ auth_response_data = auth_response.json()
 access_token = auth_response_data['access_token']
 
 client = discord.Client()
-bot = ComponentsBot(command_prefix = "@", activity=discord.Activity(type=discord.ActivityType.listening, name="@help ❤️"), help_command=None)
+bot = ComponentsBot(command_prefix = ">", activity=discord.Activity(type=discord.ActivityType.listening, name=">help ❤️"), help_command=None)
 
 queue = []
 current = {}
@@ -335,11 +335,18 @@ async def remove(ctx, number=None):
 async def queue_(ctx, page=1):
     if (len(queue)!=0):
         pages = len(queue)//20
+        
+        if(len(queue)<20):
+            pages = 1
+            
         if(page<=pages):
             message = ""
-
+                
             for i in range((page-1)*20,((page-1)*20)+20):
-                message += str(i+1) + ". " + queue[i] + "\n"
+                if(i<len(queue)):
+                    message += str(i+1) + ". " + queue[i] + "\n"
+                else:
+                    break
 
             embed = create_embed(message, "Coming Next", footer=f"Page {page}/{pages}")
             await ctx.send(embed=embed)
@@ -395,17 +402,17 @@ async def credits(ctx):
 @bot.command(name='help', help='Returns RiRa help')
 async def help(context):
     embed = discord.Embed(title="RiRa", description="List of RiRa commands", color=discord.Color.red())
-    embed.add_field(name=f"**@play**", value=f'> Alias: @p\n> Task: To play music\n> Example: @p songname',inline=False)
-    embed.add_field(name=f"**@np**", value=f'> Alias: @np\n> Task: Shows currently playing music\n> Example: @np',inline=False)
-    embed.add_field(name=f"**@queue**", value=f'> Alias: @q, @view\n> Task: View the queue\n> Example: @q, @q 2',inline=False)
-    embed.add_field(name=f"**@remove**", value=f'> Alias: @r, @del\n> Task: Removes music from the queue\n> Example: @r 1',inline=False)
-    embed.add_field(name=f"**@clear**", value=f'> Alias: @c, @cl\n> Task: Clears the queue\n> Example: @c',inline=False)
-    embed.add_field(name=f"**@pause**", value=f'> Alias: @ps\n> Task: Pauses the music\n> Example: @ps',inline=False)
-    embed.add_field(name=f"**@resume**", value=f'> Alias: @rs\n> Task: Resumes the music\n> Example: @rs',inline=False)
-    embed.add_field(name=f"**@skip**", value=f'> Alias: @fs\n> Task: Skips the music\n> Example: @fs',inline=False)
-    embed.add_field(name=f"**@disconnect**", value=f'> Alias: @dc\n> Task: To make RiRa leave the voice channel\n> Example: @dc',inline=False)
-    embed.add_field(name=f"**@ping**", value=f'> Alias: @pi\n> Task: Returns the latency\n> Example: @pi',inline=False)
-    embed.add_field(name=f"**@credits**", value=f'> Alias: @cr\n> Task: Returns the credits\n> Example: @cr',inline=False)
+    embed.add_field(name=f"**\>play**", value=f'> Alias: \>p\n> Task: To play music\n> Example: \>p songname',inline=False)
+    embed.add_field(name=f"**\>np**", value=f'> Alias: \>np\n> Task: Shows currently playing music\n> Example: \>np',inline=False)
+    embed.add_field(name=f"**\>queue**", value=f'> Alias: \>q, \>view\n> Task: View the queue\n> Example: \>q, \>q 2',inline=False)
+    embed.add_field(name=f"**\>remove**", value=f'> Alias: \>r, \>del\n> Task: Removes music from the queue\n> Example: \>r 1',inline=False)
+    embed.add_field(name=f"**\>clear**", value=f'> Alias: \>c, \>cl\n> Task: Clears the queue\n> Example: \>c',inline=False)
+    embed.add_field(name=f"**\>pause**", value=f'> Alias: \>ps\n> Task: Pauses the music\n> Example: \>ps',inline=False)
+    embed.add_field(name=f"**\>resume**", value=f'> Alias: \>rs\n> Task: Resumes the music\n> Example: \>rs',inline=False)
+    embed.add_field(name=f"**\>skip**", value=f'> Alias: \>fs\n> Task: Skips the music\n> Example: \>fs',inline=False)
+    embed.add_field(name=f"**\>disconnect**", value=f'> Alias: \>dc\n> Task: To make RiRa leave the voice channel\n> Example: \>dc',inline=False)
+    embed.add_field(name=f"**\>ping**", value=f'> Alias: \>pi\n> Task: Returns the latency\n> Example: \>pi',inline=False)
+    embed.add_field(name=f"**\>credits**", value=f'> Alias: \>cr\n> Task: Returns the credits\n> Example: \>cr',inline=False)
     embed.set_thumbnail(url=FOOTER)
     embed.set_footer(text=f"RiRa {VERSION}", icon_url=FOOTER)
     await context.send(embed=embed)
