@@ -1,6 +1,7 @@
 venv/
 .env
 .vscode/
-ffmpeg.exe
-bot_token.py
+old/
+rira.log
+config.toml
 __pycache__
