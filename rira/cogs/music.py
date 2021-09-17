@@ -40,11 +40,7 @@ class Music(commands.Cog):
         self.bot = bot
         self.config = config[__name__.split(".")[-1]]
         self.states = {}
-        self.access_token = requests.post("https://accounts.spotify.com/api/token", {
-            'grant_type': 'client_credentials',
-            'client_id': self.config["client"],
-            'client_secret': self.config["secret"],
-        }).json()["access_token"]
+        self.access_token = None
 
     def get_state(self, guild):
         if guild.id in self.states:
@@ -54,6 +50,11 @@ class Music(commands.Cog):
             return self.states[guild.id]
         
     def playlist(self, url):
+        self.access_token = requests.post("https://accounts.spotify.com/api/token", {
+            'grant_type': 'client_credentials',
+            'client_id': self.config["client"],
+            'client_secret': self.config["secret"],
+        }).json()["access_token"]
         headers = {'Authorization': f"Bearer {self.access_token}"}
         track_id = urlparse(url).path[10::]
         REQUEST_URL = f"https://api.spotify.com/v1/playlists/{track_id}/tracks"
@@ -67,6 +68,11 @@ class Music(commands.Cog):
         return (url)
 
     def album(self, url):
+        self.access_token = requests.post("https://accounts.spotify.com/api/token", {
+            'grant_type': 'client_credentials',
+            'client_id': self.config["client"],
+            'client_secret': self.config["secret"],
+        }).json()["access_token"]
         headers = {'Authorization': f"Bearer {self.access_token}"}
         album_id = urlparse(url).path[7::]
         REQUEST_URL = f"https://api.spotify.com/v1/tracks/{album_id}"
