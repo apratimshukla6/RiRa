@@ -1,7 +1,7 @@
 <div align="center">
   <br />
   <p>
-    <a href="https://rira.wtf"><img src="https://i.imgur.com/BVuDXEM.png" width="500" alt="discord.js" /></a>
+    <a href="https://rira.wtf"><img src="https://i.imgur.com/BVuDXEM.png" width="500" alt="rira" /></a>
   </p>
   <br />
   <p>
