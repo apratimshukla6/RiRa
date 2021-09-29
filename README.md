@@ -12,7 +12,7 @@
   </p>
 </div>
 
-## About !
+## About 
 
 RiRa is a minimalistic [Discord](https://discord.com) bot that allows you to play music on your server.
 
