@@ -155,11 +155,11 @@ The logs will be saved in `rira.log`
 
 Before creating an issue, please ensure that it hasn't already been reported/suggested.
 
-The issue tracker is only for bug reports and enhancement suggestions. If you have a question, please ask it in the [Discord server](https://discord.gg/aMgWPApkyS) instead of opening an issue – you will get redirected there anyway.
+The issue tracker is only for bug reports and enhancement suggestions. If you have a question, please ask it in the [Discord server] (https://discord.gg/aMgWPApkyS) instead of opening an issue – you will get redirected there anyway.
 
 If you wish to contribute to the RiRa codebase or documentation, feel free to fork the repository and submit a pull request.
 
 ## Help
 
 If you don't understand something in the documentation, you are experiencing problems, or you just need a gentle
-nudge in the right direction, please don't hesitate to join our [Discord Server](https://discord.gg/aMgWPApkyS).
+nudge in the right direction, please don't hesitate to join our [Discord Server] . (https://discord.gg/aMgWPApkyS).
