@@ -16,11 +16,11 @@
 
 RiRa is a minimalistic [Discord](https://discord.com) bot that allows you to play music on your server.
 
-- Play Spotify Tracks.
-- Play Youtube Tracks.
-- Search music with query.
-- Control Volume.
-- Built-in queue feature.
+- Play Spotify Tracks
+- Play Youtube Tracks
+- Search music with query
+- Control Volume
+- Built-in queue feature
 
 **Pending**:
 - [ ] Adding Spotify playlists
@@ -162,4 +162,4 @@ If you wish to contribute to the RiRa codebase or documentation, feel free to fo
 ## Help
 
 If you don't understand something in the documentation, you are experiencing problems, or you just need a gentle
-nudge in the right direction, please don't hesitate to join our [Discord Server] (https://discord.gg/aMgWPApkyS).
+nudge in the right direction, please don't hesitate to join our [Discord Server](https://discord.gg/aMgWPApkyS).
