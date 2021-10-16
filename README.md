@@ -8,7 +8,7 @@
     <a href="https://discord.gg/aMgWPApkyS"><img src="https://img.shields.io/discord/738109119671566447?color=5865F2&logo=discord&logoColor=white" alt="Discord server" /></a>
     <a href="https://github.com/apratimshukla6/RiRa/actions"><img src="https://github.com/apratimshukla6/RiRa/actions/workflows/python-app.yml/badge.svg" alt="Python Application Test" /></a>
     <a href="https://rira.wtf"><img src="https://img.shields.io/github/pipenv/locked/python-version/apratimshukla6/RiRa" alt="Python Version" /></a>
-    <a href="https://github.com/apratimshukla6/RiRa/blob/main/LICENSE"><img src="https://img.shields.io/github/license/apratimshukla6/RiRa" alt="LICENSE" /></a>
+    <a href="https://github.com/apratimshukla6/RiRa/blob/main/LICENSE"><img alt="LICENSE" src="https://img.shields.io/github/license/apratimshukla6/RiRa" /></a>
   </p>
 </div>
 
