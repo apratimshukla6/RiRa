@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.8
 
 # install client libs
 RUN apt update -y && apt upgrade -y
